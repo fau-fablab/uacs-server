@@ -4,6 +4,6 @@ from . import views
 
 urlpatterns = [
 	url(r'^$', views.index, name = 'index'),
-	# asking for a specific fauid
-	url(r'^(?P<wantedfauid>[0-99999]+)/$', views.detail, name='detail'),
+	# asking for a specific cardid
+	url(r'^(?P<wantedcardid>[-\w\-]+)/$', views.detail, name='detail'),
 ]

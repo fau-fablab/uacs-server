@@ -10,9 +10,9 @@ from django.http import JsonResponse
 def index(request):
 	return HttpResponse("Hello. Pleaase attach a fauid to the URL.")
 
-def detail(request, wantedfauid):
-#requesteduser = fablabUser.objects.get(fauid=wantedfauid)
-	requesteduser = get_object_or_404(fablabUser, fauid=wantedfauid)
+def detail(request, wantedcardid):
+#requesteduser = fablabUser.objects.get(cardid=wantedcardid)
+	requesteduser = get_object_or_404(fablabUser, cardid=wantedcardid)
 	dictuser = requesteduser.__dict__
 	dictstr = str(dictuser)
 	dictserialized = serializers.serialize('json', [requesteduser, ] )
