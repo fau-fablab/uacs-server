@@ -23,9 +23,10 @@ if [ "$(basename $0)" == "$(basename ${BASH_SOURCE})" ] ; then
 
         VENV_DIR="./myprojectenv/"
         SITE="./"
-        REQUIREMENTS_FEDORA=("wget" "gcc" "redhat-rpm-config" "python3-devel" "python3-setuptools" "libjpeg-turbo" "zlib" "libtiff" "python3-freetype" "lcms2" "libwebp" "tcl" "tk" "openjpeg2" \
-                    "libtiff-devel" "libjpeg-turbo-devel" "libzip-devel" "freetype-devel" "lcms2-devel" "libwebp-devel" "tcl-devel" "tk-devel")
-        REQUIREMENTS_UBUNTU=("wget" "gcc" "python3-dev" "python3-setuptools" "libtiff5-dev" "libjpeg8" "zlib1g-dev" "libfreetype6-dev" "liblcms2-dev" "libwebp-dev" "tcl8.6-dev" "tk8.6-dev" "python-tk")
+        # THE SYSTEMREQUIREMENTS ARE TODO ;)
+        REQUIREMENTS_FEDORA=("python3" "python3-virtualenv")
+        REQUIREMENTS_UBUNTU=("python3" "python3-setuptools" )
+        REQUIREMENTS_DEBIAN=("python3" "python3-venv")
 
         function activate_venv() {
         # checks if you are in the virtual environment and enters it if not
@@ -127,14 +128,14 @@ if [ "$(basename $0)" == "$(basename ${BASH_SOURCE})" ] ; then
 
         function all() {
 
-            create_venv
-
             if [ ${UID} -eq 0 ] ; then
                 echo "[i] I'll install all dependencies - abort now if you don't want to do this!"
                 install_system_requirements
             else
                 check_system_requirements
             fi
+
+            create_venv
 
             install_requirements
 
