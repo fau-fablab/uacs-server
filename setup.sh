@@ -81,13 +81,24 @@ if [ "$(basename $0)" == "$(basename ${BASH_SOURCE})" ] ; then
                     fi
                 done
 
+            elif [[ $(which apt-get) && -e "/etc/debian_version" ]] ; then
+
+                echo "[i]   I think this is debian"
+
+                for pkg in ${REQUIREMENTS_DEBIAN[@]}; do
+                    if ! $(dpkg -s "${pkg}" 1>/dev/null 2>/dev/null) ; then
+                        echo "[!]   ${pkg} is not installed"
+                        exit 1
+                    fi
+                done
+
             elif [ $(which apt-get) ] ; then
 
-                echo "[i]   I think this is ubuntu or debian"
+                echo "[i]   I think this is ubuntu"
 
                 for pkg in ${REQUIREMENTS_UBUNTU[@]}; do
                     if ! $(dpkg -q "${pkg}" >/dev/null) ; then
-                        echo "[!]   $(dpkg -q ${pkg})" >&2      # TODO test this
+                        echo "[!]   ${pkg} is not installed"
                         exit 1
                     fi
                 done
