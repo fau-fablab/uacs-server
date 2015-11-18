@@ -46,7 +46,13 @@ if [ "$(basename $0)" == "$(basename ${BASH_SOURCE})" ] ; then
 
                 dnf -y install ${REQUIREMENTS_FEDORA[@]} && dnf clean all
 
-            elif [ $(which apt-get) ] ; then
+            elif [[ $(which apt-get) && -e "/etc/debian_version" ]] ; then
+
+                echo "[i]   I think this is debian"
+
+                apt-get -y install ${REQUIREMENTS_DEBIAN[@]} && apt-get clean
+
+			elif [ $(which apt-get) ] ; then
 
                 echo "[i]   I think this is ubuntu"
 
