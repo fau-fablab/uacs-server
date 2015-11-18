@@ -25,8 +25,8 @@ if [ "$(basename $0)" == "$(basename ${BASH_SOURCE})" ] ; then
         SITE="./"
         # THE SYSTEMREQUIREMENTS ARE TODO ;)
         REQUIREMENTS_FEDORA=("python3" "python3-virtualenv")
-        REQUIREMENTS_UBUNTU=("python3" "python3-setuptools" )
-        REQUIREMENTS_DEBIAN=("python3" "python3-venv")
+        REQUIREMENTS_UBUNTU=("python3" "python3-virtualenv")
+        REQUIREMENTS_DEBIAN=("python3" "python3-virtualenv")
 
         function activate_venv() {
         # checks if you are in the virtual environment and enters it if not
@@ -52,7 +52,7 @@ if [ "$(basename $0)" == "$(basename ${BASH_SOURCE})" ] ; then
 
                 apt-get -y install ${REQUIREMENTS_DEBIAN[@]} && apt-get clean
 
-			elif [ $(which apt-get) ] ; then
+            elif [ $(which apt-get) ] ; then
 
                 echo "[i]   I think this is ubuntu"
 
@@ -83,7 +83,7 @@ if [ "$(basename $0)" == "$(basename ${BASH_SOURCE})" ] ; then
 
             elif [ $(which apt-get) ] ; then
 
-                echo "[i]   I think this is ubuntu"
+                echo "[i]   I think this is ubuntu or debian"
 
                 for pkg in ${REQUIREMENTS_UBUNTU[@]}; do
                     if ! $(dpkg -q "${pkg}" >/dev/null) ; then
@@ -134,12 +134,7 @@ if [ "$(basename $0)" == "$(basename ${BASH_SOURCE})" ] ; then
 
         function all() {
 
-            if [ ${UID} -eq 0 ] ; then
-                echo "[i] I'll install all dependencies - abort now if you don't want to do this!"
-                install_system_requirements
-            else
-                check_system_requirements
-            fi
+            check_system_requirements
 
             create_venv
 
