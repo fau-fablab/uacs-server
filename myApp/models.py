@@ -13,4 +13,11 @@ class fablabUser(models.Model):
 	def __str__(self):
 		return str(self.fauid)
 
+class fablabDevice(models.Model):
+
+	Name = models.CharField(max_length=20, default="laser")
+	runtime = models.IntegerField()
+	active = models.BooleanField()
+	def __str__(self):
+		return str(self.Name)
 # Create your models here.
