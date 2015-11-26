@@ -28,13 +28,32 @@ def detail(request, wantedcardid):
 #	mydump = json.dumps([dictuser, ])
 #	requesteduser = fablabUser.objects.filter(fauid=
 #	userinjson = serializers.serialize("json",requesteduser)
-	
+
 #returnelement = json.loads(requesteduser)
 #return HttpResponse(dictstr, content_type='text/plain')
-
-
 #return HttpResponse(json.dumps(dictserialized), content_type="application/json"
-
 	return HttpResponse(dictserialized, content_type="application/json")
 #	return JsonResponse(dictserialized, safe=False)
 # Create your views here.
+
+def create(request, user):
+
+	try:
+		requesteddevice = request.POST['device']
+	except(KeyError):
+		return HttpResponse("device does not exist")
+		
+	requestingid = request.POST['requestingid']
+	requestedid = request.POST['requestedid']
+	myrequestinguser = get_object_or_404(fablabUser, fauid=requestingid)
+	myrequesteduser = get_object_or_404(fablabUser, fauid=requestedid)
+	print ("myrequestinguser")
+#comp = myrequestinguser.Betreuer
+	if not myrequestinguser.Betreuer
+		return HttpResponse("Kein Betreuer")
+	if not myrequestinguser.requesteddevice
+		return HttpResponse("Betreuer hat keine Einweisung")
+	myrequesteduser.device=true
+	myrequesteduser.save()
+	return HttpResponseRedirect(reverse('done'))
+
