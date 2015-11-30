@@ -1,6 +1,10 @@
 # uacs-server
 
-this is the django server for a uac
+This is the django server for a [FAU FabLab's UniversalAccessControl system](https://github.com/fau-fablab/uacs-client).
 
-users are models in a django db, using mysql. the db can just be edited by using the dbs admininterface atm.
-It provides JSON objects at the url server/users/id
+Users are models in a [django](https://www.djangoproject.com/) db. The db can just be edited by using the dbs admin interface atm.
+It provides `JSON` objects at the URL `/server/users/<id>`
+
+# License
+
+[GPLv3](LICENSE)
