@@ -45,21 +45,23 @@ def detail(request, wantedcardid):
 # Create your views here.
 
 @csrf_exempt
-def create(request, user):
+def create(request):
     try:
         requesteddevice = request.POST['device']  # unused
     except(KeyError):
         return HttpResponse("device does not exist")
     requestingid = request.POST['requestingid']
     requestedid = request.POST['requestedid']
-    myrequestinguser = get_object_or_404(fablabUser, fauid=requestingid)
-    myrequesteduser = get_object_or_404(fablabUser, fauid=requestedid)
+    myrequestinguser = get_object_or_404(fablabUser, cardid=requestingid)
+    myrequesteduser = get_object_or_404(fablabUser, cardid=requestedid)
     print("myrequestinguser")
     # comp = myrequestinguser.Betreuer
     if not myrequestinguser.Betreuer:
         return HttpResponse("Kein Betreuer")
-    if not myrequestinguser.requesteddevice:
+    if not getattr(myrequestinguser, requesteddevice):
         return HttpResponse("Betreuer hat keine Einweisung")
     myrequesteduser.device = True
     myrequesteduser.save()
-    return HttpResponseRedirect(reverse('done'))  # both methods are undefined
+
+#return HttpResponseRedirect(reverse('done'))  # both methods are undefined
+    return HttpResponse("done")  # both methods are undefined
