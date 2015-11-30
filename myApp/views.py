@@ -43,7 +43,7 @@ def detail(request, wantedcardid):
 #    return JsonResponse(dictserialized, safe=False)
 # Create your views here.
 
-
+@csrf_exempt
 def create(request, user):
     try:
         requesteddevice = request.POST['device']  # unused
