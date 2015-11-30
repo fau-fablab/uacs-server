@@ -13,7 +13,7 @@ class fablabUser(models.Model):
     Kabelbinder = models.BooleanField()
 
     def __str__(self):
-        return str(self.fauid)
+        return str(self.id)
 
 
 class fablabDevice(models.Model):
