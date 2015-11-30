@@ -60,8 +60,10 @@ def create(request):
         return HttpResponse("Kein Betreuer")
     if not getattr(myrequestinguser, requesteddevice):
         return HttpResponse("Betreuer hat keine Einweisung")
-    myrequesteduser.device = True
-    myrequesteduser.save()
+    # get real database entry
+    requesteduser = fablabUser.objects.get(cardid=requestedid)
+    getattr(requesteduser, requesteddevice) = True
+    requesteduser.save()
 
 #return HttpResponseRedirect(reverse('done'))  # both methods are undefined
     return HttpResponse("done")  # both methods are undefined
