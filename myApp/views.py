@@ -5,6 +5,7 @@ from myApp.models import fablabDevice
 from django.core import serializers
 from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse
+from django.views.decorators.csrf import csrf_exempt
 # from django.shortcuts import render
 # from django.forms.models import model_to_dict
 # import json
