@@ -7,5 +7,4 @@ admin.site.register(fablabUser)
 admin.site.register(fablabDevice)
 
 
-
 # Register your models here.
