@@ -67,3 +67,17 @@ def create(request):
 
 #return HttpResponseRedirect(reverse('done'))  # both methods are undefined
     return HttpResponse("done")  # both methods are undefined
+
+@crsf_exempt
+def newUser(request):
+    try:
+        cardid = request.POST['cardid']  # unused
+    except(KeyError):
+        return HttpResponse("card id was not given")
+    newuser = fablabUser(cardid=cardid)
+    
+    # Save new user 
+    newuser.save()
+    return HttpResponse("done")  # both methods are undefined
+
+
