@@ -79,10 +79,9 @@ def newUser(request):
         return HttpResponse("card id was not given")
     except(ObjectDoesNotExist):
         # Card id is not present in the current database, everything alright
-    # Create new user
-    newuser = fablabUser(cardid=newcardid)
-    newuser.save()
-
-    return HttpResponse("done")  # both methods are undefined
+        # Create new user
+        newuser = fablabUser(cardid=newcardid)
+        newuser.save()
+        return HttpResponse("done")  # both methods are undefined
 
 
