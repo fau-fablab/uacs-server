@@ -6,6 +6,7 @@ from django.core import serializers
 from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_exempt
+from django.core.exceptions import ObjectDoesNotExist
 # from django.shortcuts import render
 # from django.forms.models import model_to_dict
 # import json
@@ -71,13 +72,17 @@ def create(request):
 @csrf_exempt
 def newUser(request):
     try:
-        cardid = request.POST['cardid']  # unused
+        newcardid = request.POST['cardid']  # unused
+        requestingcardid = fablabUser.objects.get(cardid=newcardid)
+	return HttpResponse("error") # get did not throw Exceptions, user already in database
     except(KeyError):
         return HttpResponse("card id was not given")
-    newuser = fablabUser(cardid=cardid)
-    
-    # Save new user 
+    except(ObjectDoesNotExist):
+        # Card id is not present in the current database, everything alright
+    # Create new user
+    newuser = fablabUser(cardid=newcardid)
     newuser.save()
+
     return HttpResponse("done")  # both methods are undefined
 
 
