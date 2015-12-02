@@ -4,7 +4,7 @@ from .models import fablabUser
 from .models import fablabDevice
 
 class fablabUserAdmin(admin.ModelAdmin):
-	list_display = ('fauid', 'cardid', 'Name', 'Betreuer')
+	list_display = ('id', 'fauid', 'cardid', 'Name', 'Betreuer')
 
 class fablabDeviceAdmin(admin.ModelAdmin):
 	list_display = ('Name', 'runtime', 'active')
