@@ -68,7 +68,7 @@ def create(request):
 #return HttpResponseRedirect(reverse('done'))  # both methods are undefined
     return HttpResponse("done")  # both methods are undefined
 
-@crsf_exempt
+@csrf_exempt
 def newUser(request):
     try:
         cardid = request.POST['cardid']  # unused
