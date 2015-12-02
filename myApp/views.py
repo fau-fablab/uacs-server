@@ -74,7 +74,7 @@ def newUser(request):
     try:
         newcardid = request.POST['cardid']  # unused
         requestingcardid = fablabUser.objects.get(cardid=newcardid)
-	return HttpResponse("error") # get did not throw Exceptions, user already in database
+        return HttpResponse("error") # get did not throw Exceptions, user already in database
     except(KeyError):
         return HttpResponse("card id was not given")
     except(ObjectDoesNotExist):
@@ -83,5 +83,3 @@ def newUser(request):
         newuser = fablabUser(cardid=newcardid)
         newuser.save()
         return HttpResponse("done")  # both methods are undefined
-
-
