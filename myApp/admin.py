@@ -7,7 +7,7 @@ class fablabUserAdmin(admin.ModelAdmin):
 	list_display = ('id', 'fauid', 'cardid', 'Name', 'Betreuer')
 
 class fablabDeviceAdmin(admin.ModelAdmin):
-	list_display = ('Name', 'runtime', 'active')
+	list_display = ('Name', 'betreuerruntime', 'userruntime', 'active')
 
 admin.site.register(fablabUser, fablabUserAdmin)
 admin.site.register(fablabDevice, fablabDeviceAdmin)

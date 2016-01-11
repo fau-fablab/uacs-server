@@ -17,11 +17,11 @@ class fablabUser(models.Model):
 
 
 class fablabDevice(models.Model):
-
-    Name = models.CharField(max_length=20, default="laser")
-    runtime = models.IntegerField()
+    Name = models.CharField(max_length=20, default="defaultdevice")
+	
+    userruntime = models.IntegerField()
+    betreuerruntime = models.IntegerField()
     active = models.BooleanField()
-
     def __str__(self):
         return str(self.Name)
 # Create your models here.
