@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ObjectDoesNotExist
+from datetime import datetime
 # from django.shortcuts import render
 # from django.forms.models import model_to_dict
 # import json
@@ -56,11 +57,14 @@ def create(request):
     myrequestinguser = get_object_or_404(fablabUser, cardid=requestingid)
     myrequesteduser = get_object_or_404(fablabUser, cardid=requestedid)
     print("myrequestinguser")
+    
     # comp = myrequestinguser.Betreuer
     if not myrequestinguser.Betreuer:
         return HttpResponse("Kein Betreuer")
     if not getattr(myrequestinguser, requesteddevice):
         return HttpResponse("Betreuer hat keine Einweisung")
+    
+    
     # get real database entry
     requesteduser = fablabUser.objects.get(cardid=requestedid)
     setattr(requesteduser, requesteddevice, True)
@@ -83,3 +87,64 @@ def newUser(request):
         newuser = fablabUser(cardid=newcardid)
         newuser.save()
         return HttpResponse("done")  # both methods are undefined
+
+
+@csrf_exempt
+def strikeUser(request):
+    try:
+        userid = request.POST['user'] # User to strike
+        device = request.POST['device'] # Device to strike
+        
+        # Load user
+        user = fablabUser.objects.get(cardid=userid)
+
+        # Load strike list
+        strike_text = getattr(user, device+"_strikes") 
+        strikes = strike_text.split(str=",")
+        new_strike_text = datetime.now().strftime("%Y-%m-%d.%H:%M:%S")+','
+        strike_count = 1
+
+        # Cycle strike list to delete old strikes and count strikes
+        for datetext in strikes:
+            date = datetime.strptime(datetext, "%Y-%m-%d.%H:%M:%S")
+            dyear, month = divmod(date.month+3,12)
+
+            if month == 0:
+                month=12
+                dyear -= 1
+            date_expiration = datetime(date.year + dyear, month, date.day,date.hour,date.minute,date.second)
+
+            if date_expiration < datetime.now():
+                # Strike is 3 months old -> delete
+                pass
+            else:
+                # Strike is still valid
+                new_strike_text += datetext+','
+                strike_count += 1
+            
+        if new_strike_text[-1] == ',':
+            # Delete invalid seperator ','
+            new_strike_text = new_strike_text[:-1]
+
+        if strike_count > 3:
+            # Do something - E-mail to active fablab member - deactivate card?
+            pass
+        
+        # Save new strike list
+        setattr(user, device+"_strikes", new_strike_text)
+        user.save()
+
+        return HttpResponse("done - strike_{}".format(strike_count))
+ 
+    except(KeyError):
+        return HttpResponse("invalid request - parameter mismatch")
+    except(ObjectDoesNotExist):
+        # User could not be found in the database, must not happen!
+        return HttpResponse("invalid request - no matching user found")
+    except(AttributeError):
+        # Device was not found
+        return HttpResponse("invalid request - no matching device found")
+    except(ValueError):
+        # Error probably in datetime.strptime conversion. corrupted database?
+        return HttpResponse("internal error - ValueError")
+

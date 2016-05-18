@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^devices/([-\w\-]+)/$', views.devices, name='devices'),
     url(r'^create/$', views.create, name='create'),
     url(r'newUser/$', views.newUser, name='newUser'),
+    url(r'^strikeUser/$', views.strikeUser, name='strikeUser'),
 ]
